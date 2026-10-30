@@ -1,0 +1,32 @@
+{
+  "chainId": 99801,
+  "usdc": "0xe83c3630cab1c3d1d3b19a1f6ee393618c690c7b",
+  "launchRegistry": "0x24dc6e578a7e2ea468ab300a50e23cc504d32219",
+  "swapFactory": "0xf6988f1219341262450ae279790e2105c9173b69",
+  "staking": "0xdf46b1c55634865618fdfca36504beffad18c2ab",
+  "neuriio": "0x1cac143eb95e6bcde71c38bd128c2af94a54d483",
+  "feeVault": "0xd780076bfdbbe4f0370b9253b1cac736cf29bfea",
+  "feeVaults": [
+    "0xd780076bfdbbe4f0370b9253b1cac736cf29bfea",
+    "0x5cfb96befedf81ae7e18c5f12b16e3c52f0abe63",
+    "0x35cc3eb03c575083c01cf3f84f9136b77f5dd6b9",
+    "0xcb49b0f7b219851b4093e06694bfe9937c37733e"
+  ],
+  "router": "0x86cc9908c3f3953da13f2a8760afc25b3b6a4776",
+  "routers": [
+    "0x86cc9908c3f3953da13f2a8760afc25b3b6a4776",
+    "0x8abafe4026ebf7d5450eeed16f016909614e9a8d"
+  ],
+  "launchSigner": "0x25626586434fb2003d12957a1fC4B0fA5EA52886",
+  "hlBuilder": "0xef584b1098e12c34d1d85de76285c408ab6917a8",
+  "faucet": "0x51c2146469186e42fe74e915d4f6de26e4ed135a",
+  "coreBlock": 10753609,
+  "launchpads": [
+    {
+      "address": "0x892b08a9b3987516a4ae5ab7d7e4d56642268d76",
+      "block": 10753739
+    }
+  ],
+  "launchpad": "0x892b08a9b3987516a4ae5ab7d7e4d56642268d76",
+  "minter": "0x9a02bbf37624b56edad9253020a37fefdff7b5db"
+}

@@ -1,0 +1,4725 @@
+/* Brand tokens (from the X logo + banner) */
+:root {
+  --bg: #463764;
+  --surface: #352751;
+  --surface-2: #463764;
+  --muted: #8c7d9f;
+  --lavender: #817298;
+  --text: #f3efff;
+  --text-2: #ecddff;
+  --cyan: #ccecec;
+  --cyan-2: #d8fffe;
+  --line: rgba(236, 221, 255, 0.14);
+
+  --gap: 24px;
+  --edge: 32px;
+  --radius: 7px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #120c1d; /* the app pages' background (the landing paints its own) */
+  color: var(--text);
+  font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; /* user, 2026-10-17 (was Lilex) */
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  /* the passcode page's background on every app page: near-black purple, an even grid of lavender dots
+     (user, 2026-10-12) */
+  background: radial-gradient(rgba(129, 114, 152, 0.35) 1px, transparent 1px) 0 0 / 20px 20px, #120c1d;
+}
+
+.panel {
+  position: relative;
+  background: linear-gradient(160deg, rgba(70, 55, 100, 0.55), rgba(53, 39, 81, 0.35));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(6px);
+}
+
+/* ---- top corners ---- */
+.top {
+  position: absolute;
+  top: 40px;
+  left: var(--edge);
+  right: var(--edge);
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* boxes sit on the logo's center line */
+  z-index: 3; /* above the center card, so the account panel overlaps it */
+}
+
+/* top-center marquee: centered on the page, level with the logo and buttons, never under them */
+.top-marquee {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(640px, calc(100vw - 2 * var(--edge) - 2 * 212px - 48px));
+}
+.marquee {
+  overflow: hidden;
+  padding: 8px 0;
+  /* edges fade out */
+  mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
+}
+.slider {
+  overflow: hidden;
+}
+.slider-track {
+  display: flex;
+  width: max-content;
+}
+/* fixed width so a price changing length never changes the track width (which would restart the scroll) */
+.marquee-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 64px;
+}
+.marquee-price {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.price-up {
+  color: #6ee7a0;
+}
+/* order card: price impact 1-5% (under 1% plain, over 5% .price-down) */
+.impact-mid {
+  color: #ffd27a;
+}
+.price-down {
+  color: #ff8a8a;
+}
+/* all ticker icons in white */
+.marquee-logo {
+  height: 24px;
+  width: 24px;
+  pointer-events: none;
+  user-select: none;
+  filter: brightness(0) invert(1);
+}
+
+/* logo tile: 52px, 1.5px #E8E0FF stroke, no glow (user, 2026-10-12). No hover animation. */
+.logo {
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid #e8e0ff;
+}
+
+
+
+/* top-left: the logo */
+.top-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.morph-panel-left {
+  left: 0;
+  right: auto;
+}
+/* "New" tag on a header link */
+.menu-new {
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan-2);
+  background: rgba(204, 236, 236, 0.1);
+  border: 1px solid rgba(204, 236, 236, 0.45);
+  border-radius: 4px;
+}
+/* "Soon" tag on the header's Trade link (not live yet) */
+.menu-soon-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* two equal boxes, shorter than the logo, centered on its middle */
+.top-right {
+  --top-gap: 12px;
+  display: flex;
+  gap: var(--top-gap);
+  width: min(212px, calc(100vw - 2 * var(--edge) - 52px - 16px));
+}
+
+.top-box {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 36px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text);
+  font: inherit;
+  text-align: center;
+}
+
+.top-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "Account" (logged out): same type as Points */
+.login-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.morph-trigger:focus-visible {
+  outline: none;
+}
+
+/* logged out panel: placeholder blurred behind a small centered Login card */
+.panel-body-locked {
+  filter: blur(5px);
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
+}
+/* centered on the whole panel; clicks pass through to the × except on the card itself */
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.lock-card {
+  pointer-events: auto;
+}
+.lock-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: rgba(18, 12, 29, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  box-shadow: 0 12px 30px rgba(7, 2, 12, 0.6);
+}
+.lock-title {
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 0.03em;
+}
+.lock-login {
+  padding: 8px 30px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--cyan-2);
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid rgba(204, 236, 236, 0.35);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: text-shadow 0.2s ease, border-color 0.2s ease;
+}
+.lock-login:hover:not(:disabled),
+.lock-login:focus-visible {
+  text-shadow: 0 0 6px rgba(216, 255, 254, 0.45);
+  border-color: rgba(204, 236, 236, 0.6);
+  outline: none;
+}
+.lock-login:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* the two top cards: opaque (the colors the center boxes' see-through fill makes on this background,
+   so the back card never shows through the front one), darker #8C7D9F stroke, a small depth shadow */
+.top-right .top-box {
+  background: linear-gradient(160deg, #463764, #40315d);
+  border: 0.75px solid #8c7d9f;
+  backdrop-filter: none;
+  box-shadow: 0 2px 8px rgba(7, 2, 12, 0.45);
+}
+
+/* /launch: the "Request testnet HYPE" button, centered right under the launch card */
+.launch-hype {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+.hype-btn {
+  flex: none;
+  gap: 7px;
+  padding: 0 12px;
+  color: #ffffff;
+  background: linear-gradient(160deg, #463764, #40315d);
+  border: 0.75px solid #8c7d9f;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(7, 2, 12, 0.45);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.hype-btn:hover:not(:disabled) {
+  border-color: rgba(204, 236, 236, 0.7);
+  transform: translateY(-2px);
+}
+.hype-btn:disabled {
+  cursor: default;
+}
+.hype-btn-done {
+  color: #6ee7a0;
+}
+.hype-btn-done .top-value {
+  color: #6ee7a0;
+}
+.hype-modal {
+  width: min(380px, 100%);
+}
+.hype-modal-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.hype-modal-tx {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.hype-modal-tx:hover {
+  color: #ffffff;
+}
+.hype-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.hype-btn-error .top-value {
+  color: #ff8a8a;
+}
+
+/* layered deck: Account in front on the left, Points behind it on the right; the hovered card
+   comes to the front (and springs up, see Morph) */
+.card-stack {
+  display: block;
+  width: 176px;
+  height: 36px;
+}
+.card-stack > .top-box-slot {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 36px;
+}
+.card-stack > [data-card="Account"] {
+  left: 0;
+  z-index: 2;
+}
+.card-stack > [data-card="Points"] {
+  left: 76px;
+  z-index: 1;
+}
+.card-stack > .card-front {
+  z-index: 3;
+}
+/* "Points" sits in the part of its card that the Account card doesn't cover */
+.card-stack > [data-card="Points"] .morph-trigger {
+  justify-content: flex-end;
+  padding-right: 14px;
+}
+
+
+/* ---- The app header on every page but the landing (user, 2026-10-18, like Blockworks), at every window size ----
+   Wide (>= 1200px): one row: logo · page links · marquee · search · Account · Points.
+   1025-1199px: the same row without the marquee.
+   <= 1024px: logo · search · Account · Points, then the page links in their own row under them (they scroll sideways
+   if they don't fit). Account and Points are two separate cards, no hover animation. --header-bottom is where the
+   header ends at each size: every page starts below it. */
+.app-nav {
+  --header-bottom: 68px; /* 16px from the top + the 52px logo */
+}
+.app-nav .top {
+  top: 16px;
+  gap: 20px;
+}
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.top-nav-link {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  text-decoration: none;
+  border-radius: 6px;
+}
+.top-nav-link:hover {
+  color: var(--text);
+  background: rgba(236, 221, 255, 0.06);
+}
+.top-nav-link.is-on {
+  color: #fff;
+  background: rgba(236, 221, 255, 0.1);
+}
+.top-nav-soon,
+.top-nav-soon:hover {
+  color: var(--muted);
+  background: none;
+  opacity: 0.5;
+  cursor: default;
+}
+.app-nav .top-marquee {
+  position: static;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  transform: none;
+}
+.top-search {
+  flex: none;
+  width: clamp(200px, 18vw, 320px);
+}
+.top-search .ex-search-top {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  transform: none;
+}
+/* Account and Points: two separate cards side by side (the landing keeps its layered deck) */
+.app-nav .card-stack {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  width: auto;
+}
+.app-nav .card-stack > .top-box-slot {
+  position: relative;
+  top: auto;
+  left: auto;
+  flex: none;
+  width: 100px;
+}
+.app-nav .card-stack > [data-card="Points"] {
+  order: 1; /* Account first, then Points */
+}
+.app-nav .card-stack > [data-card="Points"] .morph-trigger {
+  justify-content: center;
+  padding-right: 18px;
+}
+@media (max-width: 1199px) {
+  .app-nav .top-marquee {
+    display: none;
+  }
+  .app-nav .top-nav {
+    margin-right: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .app-nav {
+    --header-bottom: 112px; /* + a row of links */
+  }
+  .app-nav .top {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "logo search cards"
+      "nav nav nav";
+    gap: 10px 12px;
+  }
+  .app-nav .top-left {
+    grid-area: logo;
+  }
+  .app-nav .top-search {
+    grid-area: search;
+    justify-self: end;
+    width: min(100%, 420px);
+  }
+  .app-nav .card-stack {
+    grid-area: cards;
+  }
+  .app-nav .top-nav {
+    grid-area: nav;
+    margin-right: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .app-nav .top-nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .app-nav {
+    --header-bottom: 100px; /* the logo is 40px here */
+  }
+  .app-nav .top {
+    gap: 10px 8px;
+  }
+  .app-nav .card-stack {
+    gap: 6px;
+  }
+  .app-nav .card-stack > .top-box-slot {
+    width: 72px;
+  }
+  .app-nav .top-search .ex-search {
+    height: 32px;
+    padding: 0 10px;
+  }
+  .top-nav-link {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  /* the search is narrow here: its results open full width under the header */
+  .top-search .ex-results {
+    position: fixed;
+    top: calc(var(--header-bottom) + 6px);
+    left: 16px;
+    right: 16px;
+  }
+}
+
+/* Account (logged in): the button morphs into the account panel on click */
+.top-right {
+  position: relative; /* the panel opens anchored to this row */
+}
+.top-box-slot {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 36px;
+}
+.morph-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  cursor: pointer;
+}
+.account-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.avatar {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  object-fit: cover;
+  border: 1px solid rgba(232, 224, 255, 0.5);
+}
+.avatar-initial {
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+.account-name {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.morph-trigger-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.morph-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 5;
+  width: min(340px, calc(100vw - 2 * var(--edge)));
+  overflow: hidden;
+  background: linear-gradient(160deg, #1b1428, #120c1d);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 40px rgba(7, 2, 12, 0.7), 0 0 30px rgba(129, 114, 152, 0.18);
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 42px;
+  padding: 0 12px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px 12px;
+}
+/* points panel: header + 8 blank boxes (2 x 4), to be designed */
+.points-head {
+  display: inline-flex;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.points-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.points-slot {
+  height: 64px;
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.icon-btn {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.icon-btn:hover {
+  color: var(--text);
+}
+
+/* account panel: deposit address with copy */
+.deposit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.deposit-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 22px;
+}
+.deposit-foot .feed-send:hover {
+  color: var(--text);
+}
+.deposit-label,
+.deposit-note {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.deposit-address {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.deposit-address:hover {
+  border-color: rgba(204, 236, 236, 0.45);
+}
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--cyan-2);
+}
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.dropdown-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+/* Elysium / HyperCore balances: each in its own box, like the address box */
+.venue-box {
+  padding: 10px 12px 8px;
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.venue-box header {
+  border-bottom: 1px solid var(--line);
+}
+.venue header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  padding-bottom: 8px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.token {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  font-size: 12px;
+  padding: 4px 0;
+  color: var(--text);
+}
+.token-amt,
+.token-usd {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.token-usd {
+  color: var(--muted);
+  min-width: 76px;
+}
+.empty {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.link-btn {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.link-btn-small {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+}
+.link-btn:hover {
+  color: var(--text);
+}
+
+/* ---- center: main card dead-center of the viewport ---- */
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(668px, calc(100vw - 32px));
+  z-index: 1;
+}
+
+/* ---- bottom center ---- */
+.bottom {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 1;
+}
+
+.foot-slot {
+  width: 64px;
+  height: 36px;
+}
+/* social cards: same solid look as the top cards, white logo centered */
+.social {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, #463764, #40315d);
+  border: 0.75px solid #8c7d9f;
+  backdrop-filter: none;
+  box-shadow: 0 2px 8px rgba(7, 2, 12, 0.45);
+}
+.social img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1); /* white */
+}
+.social-soon {
+  cursor: default;
+}
+
+/* ---- /launch: "Tokenize yourself" card (preview left, 3 steps right) ---- */
+.launch-card {
+  height: auto;
+  min-height: 274px;
+}
+.launch-grid {
+  display: grid;
+  grid-template-columns: 216px 1fr;
+  min-height: 332px;
+}
+.lp-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 16px 14px;
+  border-right: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(18, 12, 29, 0.35), rgba(18, 12, 29, 0.1));
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.lp-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.lp-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1.5px solid #e8e0ff;
+  background: var(--surface);
+  box-shadow: 0 0 16px rgba(140, 125, 159, 0.45);
+  font-size: 20px;
+  font-weight: 700;
+}
+.lp-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lp-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.lp-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lp-ticker {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cyan-2);
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lp-chip {
+  align-self: flex-start;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--cyan-2);
+  background: rgba(204, 236, 236, 0.08);
+  border: 1px solid rgba(204, 236, 236, 0.35);
+  border-radius: 4px;
+}
+.lp-chip-empty {
+  color: var(--muted);
+  background: none;
+  border-style: dashed;
+  border-color: var(--line);
+}
+.lp-curve {
+  padding: 8px 8px 6px;
+  background: rgba(18, 12, 29, 0.45);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.lp-curve svg {
+  display: block;
+  overflow: visible;
+}
+.lp-curve-line {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+.lp-curve-fill {
+  fill: rgba(204, 236, 236, 0.18);
+  stroke: var(--cyan-2);
+  stroke-width: 1.5;
+}
+.lp-curve-dot {
+  fill: var(--cyan-2);
+  filter: drop-shadow(0 0 4px rgba(216, 255, 254, 0.8));
+  transition: cx 0.3s ease, cy 0.3s ease;
+}
+.lp-curve-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.lp-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+}
+.lp-stats div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+.lp-stats dt {
+  color: var(--muted);
+}
+.lp-stats dd {
+  margin: 0;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.lp-meme {
+  margin: auto 0 0;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.lp-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 18px 14px;
+}
+.lp-steps {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.lp-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 10px 12px 0;
+  margin-right: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: default;
+}
+.lp-step.is-done {
+  cursor: pointer;
+  color: var(--text-2);
+}
+.lp-step.is-current {
+  color: #ffffff;
+}
+.lp-step-n {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 10px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.85;
+}
+.lp-step.is-current .lp-step-n {
+  color: var(--cyan-2);
+}
+.lp-step-bar {
+  position: absolute;
+  left: 0;
+  right: 10px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--cyan-2);
+  box-shadow: 0 0 8px rgba(216, 255, 254, 0.6);
+  border-radius: 2px;
+}
+.lp-body {
+  flex: 1;
+  padding-top: 14px;
+  min-height: 218px;
+}
+.lp-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lp-q {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.lp-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.lp-cat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  row-gap: 3px;
+  align-items: center;
+  padding: 10px 10px 9px;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+.lp-cat svg {
+  color: var(--muted);
+  transition: color 0.18s ease;
+}
+.lp-cat:hover {
+  border-color: rgba(204, 236, 236, 0.35);
+}
+.lp-cat.is-on {
+  background: rgba(204, 236, 236, 0.08);
+  border-color: rgba(204, 236, 236, 0.6);
+  box-shadow: 0 0 14px rgba(204, 236, 236, 0.12);
+}
+.lp-cat.is-on svg {
+  color: var(--cyan-2);
+}
+.lp-cat-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+.lp-cat-hint {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  color: var(--muted);
+}
+/* Sector step, part 1: 7 sectors in 4 columns; part 2 shows the pick next to the question */
+.lp-cats.lp-sectors {
+  grid-template-columns: repeat(4, 1fr);
+}
+.lp-q:has(.lp-sector-pick) {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.lp-sector-pick {
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lp-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+}
+.lp-count {
+  font-weight: 400;
+  color: var(--muted);
+}
+.lp-count.is-bad {
+  color: #ff8a8a;
+}
+.lp-form textarea,
+.lp-form input:not([type="checkbox"]) {
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: rgba(18, 12, 29, 0.45);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.18s ease;
+}
+.lp-form textarea {
+  resize: none;
+  line-height: 1.45;
+}
+.lp-form textarea:focus,
+.lp-form input:focus {
+  border-color: rgba(204, 236, 236, 0.5);
+}
+.lp-form ::placeholder {
+  color: rgba(140, 125, 159, 0.8);
+}
+.lp-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 104px;
+  overflow-y: auto;
+}
+.lp-link {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  gap: 6px;
+  align-items: center;
+}
+.lp-form .is-bad {
+  border-color: rgba(255, 138, 138, 0.6);
+}
+.lp-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+}
+.lp-buy {
+  position: relative;
+}
+.lp-buy input {
+  font-size: 18px !important;
+  font-weight: 700;
+  padding-right: 60px !important;
+  font-variant-numeric: tabular-nums;
+}
+.lp-buy-unit {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.lp-quick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lp-quick-btn {
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: rgba(70, 55, 100, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.lp-quick-btn.is-on,
+.lp-quick-btn:hover {
+  color: var(--cyan-2);
+  border-color: rgba(204, 236, 236, 0.45);
+}
+.lp-balance {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted);
+}
+.lp-est {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.lp-est b {
+  color: var(--cyan-2);
+}
+.lp-warn {
+  margin: 0;
+  font-size: 11px;
+  color: #ffc98a;
+}
+.lp-agree {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 9px 10px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  background: rgba(18, 12, 29, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.lp-agree input {
+  margin: 2px 0 0;
+  accent-color: #ccecec;
+}
+.lp-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.lp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.lp-back:disabled {
+  visibility: hidden;
+}
+.lp-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  font-size: 13px;
+  text-decoration: none;
+}
+.lp-launch:not(:disabled) {
+  box-shadow: 0 0 18px rgba(204, 236, 236, 0.18);
+}
+.lp-stages {
+  gap: 14px;
+  padding: 18px 4px;
+}
+.lp-stage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+.lp-stage.is-now {
+  color: #ffffff;
+}
+.lp-stage.is-done {
+  color: var(--cyan-2);
+}
+.lp-stage-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.lp-live {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 250px;
+}
+.lp-live-icon {
+  color: var(--cyan-2);
+  filter: drop-shadow(0 0 10px rgba(216, 255, 254, 0.7));
+}
+.lp-live-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+.lp-error-title {
+  color: #ffb3b3;
+}
+.lp-live-sub {
+  max-width: 330px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.lp-live-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+.lp-live-actions .link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+/* bigger launch card (no tabs bar on this page); sits a little above the page's center (user, 2026-09-29) */
+.stage-launch {
+  top: 50%;
+  transform: translate(-50%, calc(-50% - 40px));
+  width: min(1000px, calc(100vw - 32px));
+}
+/* launch + feed pages: twisted dot strands on the page edges, half cut off like the X banner, top to bottom,
+   behind everything */
+.dna-strand {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.dna-left {
+  left: -120px;
+}
+.dna-right {
+  right: -120px;
+}
+/* feed scrolls: the strands stay put, top to bottom of the window */
+.dna-fixed {
+  position: fixed;
+  height: 100vh;
+}
+/* hidden once the visible half would run into the card */
+@media (max-width: 1260px) {
+  .dna-strand:not(.dna-phone) {
+    display: none;
+  }
+}
+.stage-launch .launch-grid {
+  grid-template-columns: 310px 1fr;
+  min-height: 510px;
+}
+.stage-launch .lp-preview {
+  gap: 18px;
+  padding: 28px 24px 22px;
+}
+.stage-launch .lp-avatar {
+  width: 68px;
+  height: 68px;
+  font-size: 27px;
+}
+.stage-launch .lp-name {
+  font-size: 20px;
+}
+.stage-launch .lp-ticker {
+  font-size: 14px;
+}
+.stage-launch .lp-chip {
+  font-size: 13px;
+  padding: 5px 11px;
+}
+.stage-launch .lp-curve-axis {
+  font-size: 10px;
+}
+.stage-launch .lp-stats {
+  gap: 7px;
+}
+.stage-launch .lp-stats div {
+  font-size: 13px;
+}
+.stage-launch .lp-meme {
+  font-size: 12px;
+}
+.stage-launch .lp-form {
+  padding: 0 30px 24px;
+}
+.stage-launch .lp-step {
+  font-size: 14px;
+  padding: 20px 14px 17px 0;
+}
+.stage-launch .lp-step-n {
+  min-width: 24px;
+  height: 21px;
+  font-size: 11px;
+}
+.stage-launch .lp-body {
+  padding-top: 24px;
+  min-height: 350px;
+}
+.stage-launch .lp-pane {
+  gap: 18px;
+}
+.stage-launch .lp-q {
+  font-size: 17px;
+}
+.stage-launch .lp-cats {
+  gap: 12px;
+}
+.stage-launch .lp-cat {
+  padding: 20px 16px 18px;
+  row-gap: 6px;
+  column-gap: 10px;
+}
+.stage-launch .lp-cat svg {
+  width: 19px;
+  height: 19px;
+}
+.stage-launch .lp-cat-label {
+  font-size: 15px;
+}
+.stage-launch .lp-cat-hint {
+  font-size: 12px;
+}
+.stage-launch .lp-label {
+  font-size: 13px;
+}
+.stage-launch .lp-form textarea,
+.stage-launch .lp-form input:not([type="checkbox"]) {
+  font-size: 14px;
+  padding: 11px 13px;
+}
+.stage-launch .lp-buy input {
+  font-size: 21px !important;
+}
+.stage-launch .lp-quick-btn {
+  font-size: 12px;
+  padding: 5px 12px;
+}
+.stage-launch .lp-balance {
+  font-size: 11px;
+}
+.stage-launch .lp-links {
+  max-height: 170px;
+}
+.stage-launch .lp-link {
+  grid-template-columns: 124px 1fr auto;
+}
+.stage-launch .lp-est {
+  font-size: 14px;
+}
+.stage-launch .lp-agree {
+  font-size: 12.5px;
+  padding: 14px 16px;
+}
+.stage-launch .lp-foot {
+  padding-top: 18px;
+}
+.stage-launch .lp-cta {
+  padding: 11px 26px;
+  font-size: 15px;
+}
+.stage-launch .lp-back {
+  font-size: 13px;
+}
+.stage-launch .lp-stage {
+  font-size: 15px;
+}
+.stage-launch .lp-live {
+  min-height: 370px;
+}
+.stage-launch .lp-live-title {
+  font-size: 24px;
+}
+.stage-launch .lp-live-sub {
+  font-size: 13px;
+  max-width: 380px;
+}
+
+/* ---- /launch intro: the first screen (Login / Launch) ---- */
+/* reference look: solid dark card, lavender tint + dot grid coming in from the right, fading out to the left */
+.launch-intro,
+.launch-flow {
+  overflow: hidden;
+  background: #1b1428;
+  border-color: rgba(236, 221, 255, 0.1);
+  backdrop-filter: none;
+  box-shadow: 0 30px 80px rgba(7, 2, 12, 0.5);
+}
+.launch-intro {
+  display: grid;
+  place-items: center;
+  width: min(750px, 100%);
+  height: 350px;
+  min-height: 0;
+  margin: 0 auto; /* the flow card stays 1000 x 512 */
+}
+/* compact content for the 750 x 350 intro */
+.launch-intro .li-content {
+  gap: 18px;
+  padding: 24px 28px;
+}
+.launch-intro .li-kicker {
+  font-size: 20px;
+}
+/* stage 2: the FTF line, same style as "The future of ownership", Next pinned bottom-right */
+.li-about {
+  max-width: 660px;
+}
+.li-ftf {
+  margin: 0;
+  line-height: 1.6;
+  text-align: center;
+}
+.launch-intro .li-ftf {
+  font-size: 14px; /* the kicker style, smaller */
+  max-width: 595px; /* 3 lines, centered on the card; 590-600px is the width where no line touches the curve */
+  margin: 0 auto;
+}
+.li-ftf span {
+  display: inline-block;
+  white-space: pre;
+}
+.launch-intro .li-next {
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+}
+/* short windows (laptops with a small browser window, tablets in landscape): the centered card would rise under the
+   header and the HYPE button onto the footer links, so the card flows below the header and the page scrolls, like on
+   phones. The flow card + HYPE button need ~800px of window; the intro ~680px (user's report, 2026-10-13) */
+@media (max-height: 820px) {
+  .stage-launch:has(.launch-flow) {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 120px auto 0;
+    padding-bottom: 110px; /* room for the footer links */
+  }
+}
+@media (max-height: 680px) {
+  .stage-launch {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 120px auto 0;
+    padding-bottom: 110px;
+  }
+}
+/* phones: the launch flow stacks (preview on top, steps full width under it) and flows below the header so the
+   page scrolls; the logged-out intro card stays centered (2026-10-10) */
+@media (max-width: 860px) {
+  .stage-launch:has(.launch-flow) {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 120px auto 0;
+    padding-bottom: 110px; /* room for the footer links */
+  }
+  .stage-launch .launch-grid {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .stage-launch .lp-preview {
+    gap: 14px;
+    padding: 20px 16px 18px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .stage-launch .lp-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+  .stage-launch .lp-name {
+    font-size: 18px;
+  }
+  .stage-launch .lp-form {
+    padding: 0 16px 18px;
+  }
+  .stage-launch .lp-step {
+    font-size: 13px;
+    padding: 16px 8px 14px 0;
+    margin-right: 6px;
+  }
+  .stage-launch .lp-cats,
+  .stage-launch .lp-cats.lp-sectors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* four steps don't fit across a phone: only the current one keeps its label, the rest show their number */
+  .stage-launch .lp-step:not(.is-current) .lp-step-label {
+    display: none;
+  }
+  .stage-launch .lp-body {
+    padding-top: 18px;
+    min-height: 0;
+  }
+}
+.launch-intro .li-btn {
+  height: 38px;
+  min-width: 104px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+/* flow content sits above the shared background; the preview column stays a touch darker */
+.launch-flow .launch-grid {
+  position: relative;
+}
+.launch-flow .lp-preview {
+  background: rgba(10, 6, 18, 0.25);
+}
+.li-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.li-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 85% at 100% 55%, rgba(150, 132, 200, 0.26), transparent 72%),
+    linear-gradient(to left, rgba(129, 114, 152, 0.16), transparent 58%);
+}
+.li-dots {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(236, 221, 255, 0.2) 1px, transparent 1.4px) 0 0 / 20px 20px;
+  /* visible on the right, gone by ~70% toward the left, and softened along the top */
+  -webkit-mask-image: linear-gradient(to left, #000 25%, transparent 72%), linear-gradient(to bottom, transparent, #000 22%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to left, #000 25%, transparent 72%), linear-gradient(to bottom, transparent, #000 22%);
+  mask-composite: intersect;
+}
+/* intro decoration: bonding curve rising from the bottom-left (see IntroCurve) */
+.li-curve {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.li-corner-glow {
+  position: absolute;
+  left: -120px;
+  bottom: -140px;
+  width: 420px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(129, 114, 152, 0.32), transparent 70%);
+  filter: blur(30px);
+}
+.li-curve svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.li-curve-line {
+  fill: none;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 4px rgba(216, 255, 254, 0.35));
+  animation: li-draw 2.2s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.li-curve-area {
+  opacity: 0;
+  animation: li-fade 1.6s 1s ease forwards;
+}
+@keyframes li-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes li-fade {
+  to {
+    opacity: 1;
+  }
+}
+/* the dot climbs the curve (offset-path = the same path, rebuilt at the card's real size in LaunchCard) */
+.li-curve-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e9fffe;
+  box-shadow: 0 0 8px 3px rgba(216, 255, 254, 0.55), 0 0 18px 6px rgba(204, 236, 236, 0.2);
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  opacity: 0;
+  animation: li-climb 6.5s 2.4s ease-in infinite;
+}
+@keyframes li-climb {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* twinkling dots: a few grid dots glow cyan, fade, and relight elsewhere (positions set in LaunchBg) */
+.li-twinkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  border-radius: 50%;
+  background: #e9fffe;
+  box-shadow: 0 0 6px 2px rgba(216, 255, 254, 0.55), 0 0 14px 4px rgba(204, 236, 236, 0.18);
+  opacity: 0;
+  animation: li-twinkle 4.2s ease-in-out infinite;
+}
+@keyframes li-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  60% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .li-twinkle,
+  .li-curve-dot {
+    display: none;
+  }
+  .li-curve-line,
+  .li-curve-area {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+.li-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 760px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.li-kicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cyan-2);
+}
+/* same look as the top Account / Points cards, just bigger */
+.li-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 200px;
+  height: 52px;
+  padding: 0 34px;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(160deg, #463764, #40315d);
+  border: 0.75px solid #8c7d9f;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(7, 2, 12, 0.45);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+}
+.li-btn:hover:not(:disabled),
+.li-btn:focus-visible {
+  transform: translateY(-1px);
+  border-color: #b3a6c6;
+  box-shadow: 0 6px 16px rgba(7, 2, 12, 0.5);
+  outline: none;
+}
+.li-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* phones: preview on top, steps below */
+@media (max-width: 640px) {
+  .launch-grid {
+    grid-template-columns: 1fr;
+  }
+  .lp-preview {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .lp-curve,
+  .lp-meme {
+    display: none;
+  }
+  .lp-cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* phones: stack the header, keep the card centered */
+@media (max-width: 640px) {
+  :root {
+    --edge: 16px;
+  }
+  .top {
+    top: 16px;
+  }
+  .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+  }
+  .top-right {
+    --top-gap: 8px;
+  }
+  .top-box {
+    height: 32px;
+    padding: 0 10px;
+  }
+  .top-label {
+    display: none;
+  }
+  .top-value,
+  .login-text {
+    font-size: 14px;
+  }
+  .bottom {
+    bottom: 16px;
+  }
+  .top-marquee {
+    display: none; /* no room between logo and buttons on phones */
+  }
+
+}
+
+/* ---- /feed: posts like X (like, comment, send). First pass, 2026-09-30 ---- */
+/* as wide as Explore's three cards together. The page itself doesn't scroll: the card grows to fill the window
+   (between the search and the footer links) and then the posts scroll inside it (user, 2026-10-01) */
+.stage-feed {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(1480px, calc(100vw - 32px));
+  margin: 120px auto 0;
+  padding-bottom: 110px; /* room for the footer links */
+}
+/* search above the card (same as Explore's) */
+.feed-search {
+  position: relative;
+  width: min(460px, 100%);
+  margin: 0 auto 16px;
+  z-index: 2;
+}
+.feed-search .ex-search {
+  margin: 0;
+  background: #1b1428;
+  box-shadow: 0 12px 32px rgba(7, 2, 12, 0.45);
+}
+/* left column (you, wallet, trending) + posts */
+.feed-grid {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 32px;
+  padding: 24px;
+  /* window minus the top bar + search (180px) and the footer links (110px) */
+  max-height: calc(100dvh - 290px);
+}
+.feed-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 221, 255, 0.18) transparent;
+  padding-right: 8px;
+}
+.feed-side {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 221, 255, 0.18) transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 6, 18, 0.35);
+}
+.feed-side-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+.feed-side-box + .feed-side-box {
+  border-top: 1px solid var(--line);
+}
+.feed-side-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.feed-side-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.feed-muted {
+  color: var(--muted);
+}
+.feed-locked p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.feed-me-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.feed-me-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.feed-me-chips {
+  display: flex;
+  gap: 8px;
+}
+.feed-me-fees {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.feed-me-fees-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #8fe3a7;
+}
+.feed-me-fees-value .feed-muted {
+  font-size: 11px;
+  font-weight: 400;
+}
+.feed-me-launch {
+  font-size: 12px;
+}
+.feed-notices {
+  gap: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.feed-notices-head {
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  font-size: 11px;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.feed-notices-head .feed-side-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.feed-notices-count {
+  min-width: 18px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: #10231a;
+  background: #8fe3a7;
+  border-radius: 9px;
+}
+.feed-notices-empty {
+  font-size: 11px;
+}
+.feed-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.feed-notice:hover {
+  color: #ffffff;
+}
+.feed-notice-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.feed-venue {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.feed-venue-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.feed-bal {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.feed-bal-amt {
+  text-align: right;
+}
+.feed-bal-empty {
+  font-size: 11px;
+}
+.feed-trend-list {
+  margin: 0 -8px;
+  padding: 0;
+  list-style: none;
+}
+.feed-trend-list .ex-row {
+  text-decoration: none;
+}
+/* phones: one card with Feed / Notifications tabs (no left column); the page scrolls, not the list (2026-10-10) */
+.feed-mobile {
+  padding: 0 16px 8px;
+}
+.feed-mobile .feed-mtabs {
+  grid-template-columns: repeat(2, 1fr);
+  margin: 16px 0 8px;
+}
+.feed-mobile .ex-mtab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.feed-mobile .feed-list {
+  overflow: visible;
+  padding-right: 0;
+}
+.feed-mtab-count {
+  margin-left: 8px;
+}
+.feed-mobile > .nt-empty,
+.feed-mnotices {
+  padding: 12px 0 10px;
+}
+.feed-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.feed-post {
+  display: flex;
+  gap: 14px;
+  padding: 18px 4px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.feed-post:first-child {
+  padding-top: 4px;
+}
+.feed-post:last-child {
+  border-bottom: none;
+}
+.feed-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feed-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+}
+.feed-name {
+  font-weight: 700;
+  color: #ffffff;
+}
+.feed-handle,
+.feed-dot,
+.feed-time {
+  color: var(--muted);
+}
+.feed-ticker {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cyan-2);
+}
+.feed-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.feed-actions {
+  display: flex;
+  gap: 28px;
+  margin-top: 4px;
+}
+.feed-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.feed-act:hover {
+  color: var(--cyan-2);
+}
+.feed-send {
+  gap: 5px;
+}
+.feed-send b {
+  font-size: 14px;
+}
+.feed-like:hover,
+.feed-like.is-on {
+  color: #ff8fb1;
+}
+/* send window */
+.send-modal {
+  width: min(440px, 100%);
+}
+.send-to {
+  gap: 7px;
+}
+.send-to b {
+  color: #ffffff;
+}
+.send-tokens {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+.send-token {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: rgba(70, 55, 100, 0.3);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.send-token:hover {
+  border-color: rgba(204, 236, 236, 0.35);
+}
+.send-token.is-on {
+  background: rgba(204, 236, 236, 0.08);
+  border-color: rgba(204, 236, 236, 0.6);
+}
+.send-token-names {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.send-token-label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.send-token-bal {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+.send-amount {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.send-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 12px;
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.14);
+  border-radius: var(--radius);
+}
+.send-input:focus-within {
+  border-color: rgba(204, 236, 236, 0.5);
+}
+.send-input-address input {
+  font-size: 13px;
+}
+.send-input.is-bad {
+  border-color: rgba(255, 120, 120, 0.6);
+}
+.send-input input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 16px;
+  color: #ffffff;
+  background: none;
+  border: none;
+  outline: none;
+}
+.send-sym {
+  font-size: 12px;
+  color: var(--muted);
+}
+.send-go {
+  width: 100%;
+  justify-content: center;
+}
+.send-note {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+.send-empty,
+.send-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 4px;
+  text-align: center;
+}
+.send-empty p,
+.send-done p {
+  margin: 0;
+  font-size: 13px;
+}
+.send-done-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #10231a;
+  background: #8fe3a7;
+  border-radius: 50%;
+}
+
+/* comments window */
+.feed-thread {
+  width: min(560px, 100%);
+  max-height: min(640px, 100%);
+}
+.feed-thread-post {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.feed-thread-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.feed-comment {
+  display: flex;
+  gap: 10px;
+}
+.feed-comment .feed-text {
+  font-size: 13px;
+}
+@media (max-width: 860px) {
+  .stage-feed {
+    margin-top: 110px;
+  }
+  .feed-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  .feed-side {
+    max-height: none;
+    overflow: visible;
+  }
+  /* phones: one column (you, then posts), so the page scrolls instead of the posts */
+  .feed-grid {
+    max-height: none;
+    grid-template-rows: auto;
+  }
+  .feed-list {
+    overflow: visible;
+    padding-right: 0;
+  }
+}
+
+/* ---- /explore: search + Top 25 (left) beside the picked token (right). First pass, 2026-09-28 ---- */
+/* pinned under the top bar (not vertically centered): search right below the marquee, cards under it, free space
+   left below the chart for more data */
+.stage-explore {
+  position: relative; /* in the page flow, so the page grows (and scrolls) with Positions below the chart */
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(1480px, calc(100vw - 32px));
+  margin: 176px auto 0; /* search bar sits 16px + 40px above the cards */
+  padding-bottom: 110px; /* room for the footer links */
+}
+/* equal side columns keep the chart exactly in the middle of the page */
+.ex-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 300px;
+  grid-template-rows: min(560px, calc(100vh - 300px)) auto;
+  grid-template-areas:
+    "list chart order"
+    ". positions .";
+  gap: var(--gap);
+  row-gap: 16px;
+}
+.ex-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #1b1428;
+  border-color: rgba(236, 221, 255, 0.1);
+  backdrop-filter: none;
+  box-shadow: 0 30px 80px rgba(7, 2, 12, 0.5);
+}
+.ex-card > :not(.li-bg) {
+  position: relative; /* above the shared background */
+}
+.ex-empty {
+  margin: 0;
+  padding: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  list-style: none;
+}
+
+/* left: search + list */
+.ex-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 16px 10px;
+  padding: 0 12px;
+  height: 38px;
+  color: var(--muted);
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.14);
+  border-radius: var(--radius);
+}
+.ex-search:focus-within {
+  border-color: rgba(216, 255, 254, 0.5);
+}
+.ex-search input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: none;
+  border: 0;
+  outline: none;
+}
+/* platform fees, above the Top 25: label left, lifetime total right, the cards' 1px line under it */
+.ex-platform {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid rgba(236, 221, 255, 0.5);
+}
+.ex-platform-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-platform-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #6ee7a0;
+  font-variant-numeric: tabular-nums;
+}
+.ex-list-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 18px 8px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0 8px 10px;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 221, 255, 0.18) transparent;
+}
+a.ex-row {
+  text-decoration: none; /* the header search's results are links to Explore */
+}
+.ex-row {
+  display: grid;
+  grid-template-columns: 22px auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ex-row:hover {
+  background: rgba(236, 221, 255, 0.05);
+}
+.ex-row.is-picked {
+  background: rgba(216, 255, 254, 0.06);
+  border-color: rgba(216, 255, 254, 0.28);
+}
+.ex-rank {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ex-row-names {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ex-row-handle {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ex-row-mcap {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.ex-change {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.ex-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cyan-2);
+  background: var(--surface);
+  border: 1px solid rgba(232, 224, 255, 0.5);
+  border-radius: 6px;
+}
+.ex-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* right: the picked token */
+.ex-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  padding: 22px 26px;
+}
+.ex-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ex-head-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ex-handle {
+  font-size: 18px;
+  font-weight: 700;
+}
+.ex-ticker {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ex-head .lp-chip {
+  align-self: center;
+}
+/* the chips' wrapper only matters on phones (own row); on desktop the chips sit in the header's flex row */
+.ex-chips {
+  display: contents;
+}
+/* phones: name left + price right on one row, the chips on the row under it, so the price never wraps away */
+@media (max-width: 860px) {
+  .ex-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 12px;
+  }
+  .ex-head-names {
+    min-width: 0;
+  }
+  .ex-handle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ex-price {
+    grid-row: 1;
+    grid-column: 3;
+  }
+  .ex-price-usd {
+    font-size: 20px;
+  }
+  .ex-chips {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+.ex-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  margin-left: auto;
+}
+.ex-price-usd {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ex-price .ex-change {
+  font-size: 12px;
+}
+.ex-chart-bar {
+  display: flex;
+  gap: 6px;
+}
+.ex-range {
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid rgba(236, 221, 255, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ex-range.is-on {
+  color: var(--cyan-2);
+  border-color: rgba(216, 255, 254, 0.45);
+  background: rgba(216, 255, 254, 0.06);
+}
+.ex-chart {
+  flex: 1;
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+}
+.ex-chart {
+  position: relative;
+  display: block;
+}
+/* Lightweight Charts canvas fills the chart area (autoSize) */
+.ex-lwc {
+  position: absolute;
+  inset: 0;
+}
+.ex-chart-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.ex-chart-label {
+  margin-left: auto;
+  align-self: center;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+.ex-stats div {
+  padding: 10px 12px;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.ex-stats dt {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-stats dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ex-progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ex-progress-track {
+  height: 6px;
+  overflow: hidden;
+  background: rgba(236, 221, 255, 0.08);
+  border-radius: 3px;
+}
+.ex-progress-track span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #817298, #d8fffe);
+  border-radius: 3px;
+}
+
+@media (max-width: 860px) {
+  /* stacked cards are taller than the screen: flow below the header and scroll instead of centering */
+  .stage-explore {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 120px auto 110px;
+  }
+  .ex-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: "chart" "order" "positions" "list";
+    height: auto;
+  }
+  .ex-positions-card {
+    overflow-x: auto;
+  }
+  .ex-head {
+    flex-wrap: wrap;
+  }
+  .ex-center {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ex-search-top {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+  }
+  .ex-detail {
+    padding: 18px 16px;
+  }
+  .ex-list-card {
+    height: 320px;
+  }
+  .ex-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ex-list-card {
+  grid-area: list;
+}
+/* center column: the chart card, with the search floating above it (cards stay top-aligned) */
+.ex-center {
+  grid-area: chart;
+  position: relative;
+  display: flex;
+  min-height: 0;
+}
+.ex-detail-card {
+  flex: 1;
+  min-width: 0;
+}
+.ex-search-top {
+  position: absolute;
+  bottom: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(460px, 100%);
+  z-index: 2;
+}
+.ex-search-top .ex-search {
+  margin: 0;
+  background: #1b1428;
+  box-shadow: 0 12px 32px rgba(7, 2, 12, 0.45);
+}
+.ex-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 340px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  background: #1b1428;
+  border: 1px solid rgba(236, 221, 255, 0.14);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(7, 2, 12, 0.6);
+}
+.ex-list-foot {
+  margin: 0;
+  padding: 8px 18px 12px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.ex-order-card {
+  grid-area: order;
+}
+
+/* ---- phones: the About / Trade / Positions card under the chart (2026-10-10) ---- */
+@media (max-width: 860px) {
+  .ex-grid {
+    grid-template-areas: none;
+  }
+  .ex-center,
+  .ex-mtabs-card {
+    grid-area: auto;
+  }
+  .ex-chart {
+    min-height: 260px;
+  }
+}
+.ex-mtabs {
+  display: grid;
+  grid-auto-columns: 1fr; /* as many equal tabs as it has (Explore 4, Trending 3) */
+  grid-auto-flow: column;
+  margin: 16px 16px 0;
+  padding: 3px;
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.1);
+  border-radius: var(--radius);
+}
+.ex-mtab {
+  height: 34px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ex-mtab.is-on {
+  color: var(--cyan-2);
+  background: rgba(216, 255, 254, 0.06);
+  border-color: rgba(216, 255, 254, 0.35);
+}
+.ex-about {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 16px;
+}
+.ex-about .ex-modal-head {
+  padding-right: 0;
+}
+.ex-mtab-positions {
+  overflow-x: auto;
+}
+/* phones: the stake card's two halves stack in the tab, at their natural height */
+.ex-mtab-stake .ex-stake {
+  height: auto;
+}
+.ex-mtab-positions .ex-positions {
+  padding-top: 10px;
+}
+
+/* ---- /trending: Bonding / Recently graduated / Trending, three cards between the dot strands (2026-10-10) ---- */
+.stage-trending {
+  position: relative; /* in the page flow, so phones scroll */
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(1480px, calc(100vw - 32px));
+  margin: 176px auto 0;
+  padding-bottom: 110px; /* room for the footer links */
+}
+/* desktop: three equal columns, each as tall as the window allows, its list scrolling inside (like Explore's Top 25) */
+.tr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.tr-col {
+  height: min(760px, calc(100dvh - 300px));
+  min-height: 420px;
+}
+.tr-col .tr-list {
+  overflow-y: auto;
+}
+.tr-title {
+  color: var(--text);
+  font-weight: 600;
+}
+/* headings stay on one line in narrower columns */
+.tr-card .ex-list-head {
+  gap: 12px;
+  white-space: nowrap;
+}
+.tr-card .ex-list-head > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.tr-mtabs {
+  margin: 16px 16px 0;
+}
+.tr-card:not(.tr-col) .tr-list {
+  overflow: visible; /* phones: the page scrolls, not the list */
+}
+.tr-list .ex-row {
+  text-decoration: none;
+}
+@media (max-width: 860px) {
+  .stage-trending {
+    margin-top: 120px;
+  }
+}
+/* 3 columns get tight on laptops: slimmer sides, 3 stat tiles per row */
+@media (max-width: 1240px) and (min-width: 861px) {
+  .ex-grid {
+    grid-template-columns: 260px minmax(0, 1fr) 260px;
+  }
+  .ex-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* right: order card */
+.ex-order {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  padding: 18px 16px;
+}
+.ex-order-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.1);
+  border-radius: var(--radius);
+}
+.ex-order-tab {
+  height: 32px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ex-order-tab.is-buy.is-on {
+  color: #0f1a14;
+  background: #6ee7a0;
+}
+.ex-order-tab.is-sell.is-on {
+  color: #1f0f12;
+  background: #ff8a8a;
+}
+.ex-order-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ex-order-label,
+.ex-order-est dt {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-order-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 12px;
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.14);
+  border-radius: var(--radius);
+}
+.ex-order-input:focus-within {
+  border-color: rgba(216, 255, 254, 0.5);
+}
+.ex-order-input input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  background: none;
+  border: 0;
+  outline: none;
+}
+.ex-order-unit {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ex-order-sub {
+  min-height: 14px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ex-order-quick {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+/* buy side: the four amounts + a pencil to set your own (remembered in this browser) */
+.ex-order-quick.has-edit {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+}
+.ex-quick-edit {
+  display: grid;
+  place-items: center;
+  padding: 4px 8px;
+}
+.ex-quick-input {
+  min-width: 0;
+  width: 100%;
+  color: var(--text);
+  text-align: center;
+  outline: none;
+}
+.ex-quick-input:focus {
+  border-color: rgba(216, 255, 254, 0.75);
+}
+/* preset amounts: brighter stroke + text than the chart's range buttons, so they don't read as disabled */
+.ex-order-quick .ex-range {
+  color: var(--text-2);
+  border-color: rgba(216, 255, 254, 0.38);
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.ex-order-quick .ex-range:hover:not(:disabled) {
+  color: #ffffff;
+  border-color: rgba(216, 255, 254, 0.75);
+  background: rgba(216, 255, 254, 0.06);
+}
+.ex-order-quick .ex-range:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ex-order-est {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 12px;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.ex-order-est div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ex-order-est dd {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ex-order-cta {
+  height: 44px;
+  margin-top: auto;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.ex-order-cta.is-buy {
+  color: #0f1a14;
+  background: #6ee7a0;
+}
+.ex-order-cta.is-sell {
+  color: #1f0f12;
+  background: #ff8a8a;
+}
+.ex-order-cta:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.ex-order-note {
+  margin: -6px 0 0;
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Explore card backgrounds face the page center: list = right (the /launch default), chart = center, order = left */
+.ex-bg-center .li-tint {
+  background:
+    radial-gradient(ellipse 45% 80% at 50% 55%, rgba(150, 132, 200, 0.12), transparent 72%),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(129, 114, 152, 0.05), transparent 80%);
+}
+/* the chart card's dots kept faint, so the candles stand out */
+.ex-bg-center .li-dots {
+  background: radial-gradient(circle, rgba(236, 221, 255, 0.1) 1px, transparent 1.4px) 0 0 / 20px 20px;
+}
+.ex-bg-center .li-dots {
+  -webkit-mask-image: radial-gradient(ellipse 42% 62% at 50% 55%, #000 25%, transparent 78%), linear-gradient(to bottom, transparent, #000 22%);
+  mask-image: radial-gradient(ellipse 42% 62% at 50% 55%, #000 25%, transparent 78%), linear-gradient(to bottom, transparent, #000 22%);
+}
+.ex-bg-left .li-tint {
+  background:
+    radial-gradient(ellipse 55% 85% at 0% 55%, rgba(150, 132, 200, 0.26), transparent 72%),
+    linear-gradient(to right, rgba(129, 114, 152, 0.16), transparent 58%);
+}
+.ex-bg-left .li-dots {
+  -webkit-mask-image: linear-gradient(to right, #000 25%, transparent 72%), linear-gradient(to bottom, transparent, #000 22%);
+  mask-image: linear-gradient(to right, #000 25%, transparent 72%), linear-gradient(to bottom, transparent, #000 22%);
+}
+.ex-order-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.ex-order-bal {
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.ex-order-msg {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Profile button next to the category badge (lavender, vs the cyan badge) */
+.ex-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #f3e8ff;
+  background: rgba(196, 150, 255, 0.16);
+  border: 1px solid rgba(206, 170, 255, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ex-profile-btn:hover {
+  background: rgba(196, 150, 255, 0.26);
+}
+
+/* profile modal: over the chart card's center, the card blurred behind it */
+.ex-detail {
+  position: relative;
+}
+.ex-modal-backdrop {
+  position: absolute;
+  inset: -22px -26px; /* the whole card (cancels .ex-detail's padding) */
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 10, 24, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.ex-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(420px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 22px;
+  background: #1b1428;
+  border: 1px solid rgba(236, 221, 255, 0.16);
+  border-radius: var(--radius);
+  box-shadow: 0 30px 80px rgba(7, 2, 12, 0.6);
+}
+.ex-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid rgba(236, 221, 255, 0.12);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ex-modal-close:hover {
+  color: var(--text);
+}
+.ex-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 34px;
+}
+.ex-modal-head .lp-chip {
+  align-self: center;
+  margin-left: auto;
+}
+.ex-modal-avatar {
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+}
+.ex-modal-x {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--cyan-2);
+  text-decoration: none;
+}
+.ex-modal-x:hover {
+  text-decoration: underline;
+}
+.ex-modal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ex-modal-label {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-modal-about {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-2);
+  white-space: pre-wrap;
+}
+.ex-modal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ex-modal-links a {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.ex-modal-links a:hover {
+  border-color: rgba(216, 255, 254, 0.35);
+}
+.ex-modal-host {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* positions: under the chart, same width */
+.ex-positions-card {
+  grid-area: positions;
+}
+.ex-positions {
+  position: relative;
+  padding: 14px 18px 12px;
+}
+.ex-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.ex-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.ex-tab.is-on {
+  color: var(--cyan-2);
+  background: rgba(216, 255, 254, 0.06);
+  border-color: rgba(216, 255, 254, 0.35);
+}
+.ex-tab-count {
+  font-size: 10px;
+  color: var(--muted);
+}
+.ex-pos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.ex-pos-table th {
+  padding: 8px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(236, 221, 255, 0.08);
+}
+.ex-pos-table td {
+  padding: 10px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(236, 221, 255, 0.05);
+}
+.ex-pos-table th:first-child,
+.ex-pos-table td:first-child {
+  text-align: left;
+}
+.ex-pos-table tbody tr {
+  cursor: pointer;
+}
+.ex-pos-table tbody tr:hover td {
+  background: rgba(236, 221, 255, 0.04);
+}
+.ex-pos-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.ex-pos-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* positions card: glow from the top center, toward the chart above it */
+.ex-bg-top .li-tint {
+  background:
+    radial-gradient(ellipse 45% 110% at 50% 0%, rgba(150, 132, 200, 0.26), transparent 72%),
+    linear-gradient(to bottom, rgba(129, 114, 152, 0.12), transparent 60%);
+}
+.ex-bg-top .li-dots {
+  -webkit-mask-image: radial-gradient(ellipse 45% 120% at 50% 0%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 45% 120% at 50% 0%, #000 20%, transparent 75%);
+}
+
+/* the token's sector, first in the header (before the category / FTF badge) */
+.ex-sector-chip {
+  color: var(--cyan-2);
+  background: rgba(204, 236, 236, 0.08);
+  border-color: rgba(204, 236, 236, 0.4);
+}
+
+/* FTF: the badge (instead of a category) and the members list in the profile window */
+.ex-ftf-chip {
+  color: #ffe3a3;
+  background: rgba(255, 210, 120, 0.1);
+  border-color: rgba(255, 210, 120, 0.45);
+}
+.ex-modal-members {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ex-modal-members a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.ex-modal-members a:hover {
+  border-color: rgba(216, 255, 254, 0.35);
+}
+.ex-modal-member-names {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Account panel: creator fees + Claim */
+.fees-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0 2px;
+}
+.fees-amount {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.fees-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.fees-claim {
+  height: 30px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f1a14;
+  background: #6ee7a0;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.fees-claim:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.fees-note {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* chart header: lifetime creator fees next to the Profile button */
+.ex-earned {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 10px;
+  white-space: nowrap;
+  border-left: 1px solid rgba(236, 221, 255, 0.12);
+}
+/* the header wraps only when it runs out of room (the price then moves to its own line, right-aligned) */
+.ex-head {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.ex-earned-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ex-earned-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6ee7a0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- notifications: green count on the Account card, bell in the panel, the window ---- */
+.notif-count {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #0f1a14;
+  background: #6ee7a0;
+  border-radius: 9px;
+  box-shadow: 0 0 10px rgba(110, 231, 160, 0.45);
+}
+.account-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.notif-bell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 8px;
+  color: var(--text-2);
+  background: rgba(236, 221, 255, 0.06);
+  border: 1px solid rgba(236, 221, 255, 0.16);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.notif-bell:hover {
+  color: #ffffff;
+  border-color: rgba(110, 231, 160, 0.5);
+}
+.nt-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(15, 10, 24, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.nt-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(460px, 100%);
+  max-height: min(560px, 100%);
+  overflow-y: auto;
+  padding: 20px;
+  background: #1b1428;
+  border: 1px solid rgba(236, 221, 255, 0.16);
+  border-radius: var(--radius);
+  box-shadow: 0 30px 80px rgba(7, 2, 12, 0.6);
+}
+.nt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nt-head .ex-modal-close {
+  position: static;
+}
+.nt-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.nt-empty {
+  margin: 8px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.nt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nt-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 12px;
+  align-items: start;
+  padding: 12px;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.nt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.nt-ticker {
+  color: var(--muted);
+}
+.nt-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.nt-actions {
+  grid-column: 2;
+  display: flex;
+  gap: 8px;
+}
+.nt-yes,
+.nt-no {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.nt-yes {
+  color: #0f1a14;
+  background: #6ee7a0;
+  border: 0;
+}
+.nt-no {
+  color: var(--text-2);
+  background: none;
+  border: 1px solid rgba(236, 221, 255, 0.16);
+}
+.nt-yes:disabled,
+.nt-no:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.nt-wallet {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 2px 7px;
+  font: inherit;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--text-2);
+  background: rgba(236, 221, 255, 0.06);
+  border: 1px solid rgba(236, 221, 255, 0.16);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.nt-wallet:hover {
+  color: #ffffff;
+}
+.nt-error {
+  margin: 0;
+  font-size: 12px;
+  color: #ff8a8a;
+}
+
+/* ---- /launch: Personal or FTF, and the FTF members step ---- */
+.stage-launch .lp-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.stage-launch .lp-type {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 180px;
+  padding: 22px 20px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.12);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.stage-launch .lp-type:hover:not(:disabled) {
+  border-color: rgba(216, 255, 254, 0.35);
+}
+.stage-launch .lp-type.is-on {
+  border-color: rgba(216, 255, 254, 0.6);
+  background: rgba(216, 255, 254, 0.06);
+}
+.stage-launch .lp-type:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.stage-launch .lp-type .lp-cat-label {
+  font-size: 18px;
+}
+.lp-type-link {
+  margin-top: auto;
+  font-size: 12px;
+}
+.lp-ftf-id {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 12px;
+}
+.lp-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: rgba(10, 6, 18, 0.45);
+  border: 1px solid rgba(236, 221, 255, 0.14);
+  border-radius: var(--radius);
+  outline: none;
+}
+.lp-input:focus {
+  border-color: rgba(216, 255, 254, 0.5);
+}
+.lp-invites {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.lp-invite {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lp-at {
+  color: var(--muted);
+  font-weight: 700;
+}
+.lp-invite-more {
+  margin-top: 10px;
+  max-width: 360px;
+}
+.lp-member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-member {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(10, 6, 18, 0.35);
+  border: 1px solid rgba(236, 221, 255, 0.08);
+  border-radius: 6px;
+}
+.lp-member.is-declined {
+  opacity: 0.5;
+}
+.lp-member-av,
+.lp-member-dot {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cyan-2);
+  background: var(--surface);
+  border: 1px solid rgba(232, 224, 255, 0.4);
+  border-radius: 6px;
+}
+.lp-member-av img,
+.lp-member-dot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lp-member-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.lp-member-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.lp-member.is-accepted .lp-member-status {
+  color: #6ee7a0;
+}
+.lp-members-mini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lp-member-dot {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+  color: var(--muted);
+  border-style: dashed;
+}
+.lp-member-dot.is-pending {
+  border-style: solid;
+  opacity: 0.6;
+}
+.lp-member-dot.is-in {
+  border-style: solid;
+  border-color: rgba(110, 231, 160, 0.7);
+  color: var(--cyan-2);
+}
+.lp-members-count {
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.lp-pfp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.lp-pfp-preview {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed rgba(232, 224, 255, 0.5);
+  border-radius: 7px;
+}
+.lp-pfp-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* /launch intro: the Neuriio mark, top center of the card (both intro screens) */
+.li-mark {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  width: 56px;
+  height: auto;
+  margin-left: -28px;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 4px 14px rgba(7, 2, 12, 0.5));
+}
+
+/* ---- "Graduating" moment (a buy that sells the curve's last tokens): light blur + orb over the whole page ---- */
+.grad-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 45%, rgba(129, 114, 152, 0.28), rgba(27, 18, 41, 0.35) 60%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.grad-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+.grad-orb {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+}
+/* glowing core: cyan -> lavender, breathing */
+.grad-core {
+  position: absolute;
+  inset: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d8fffe 18%, #9fd9e8 38%, #817298 72%, #463764 100%);
+  box-shadow: 0 0 40px rgba(204, 236, 236, 0.55), 0 0 90px rgba(129, 114, 152, 0.6), inset 0 0 18px rgba(255, 255, 255, 0.35);
+  animation: grad-breathe 1.8s ease-in-out infinite;
+}
+/* two spinning rings of light around it */
+.grad-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(216, 255, 254, 0.95) 60deg, transparent 140deg, rgba(129, 114, 152, 0.8) 240deg, transparent 320deg);
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 64%, #000 68%, transparent 70%);
+  mask: radial-gradient(circle, transparent 62%, #000 64%, #000 68%, transparent 70%);
+  filter: drop-shadow(0 0 8px rgba(216, 255, 254, 0.7));
+  animation: grad-spin 1.6s linear infinite;
+}
+.grad-ring-2 {
+  inset: 14px;
+  opacity: 0.7;
+  animation-duration: 2.6s;
+  animation-direction: reverse;
+}
+.grad-orb.is-done .grad-core {
+  animation: none;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #c9f7d6 25%, #8fe3a7 60%, #4f9e6c 100%);
+  box-shadow: 0 0 50px rgba(143, 227, 167, 0.6), 0 0 100px rgba(143, 227, 167, 0.3);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.grad-orb.is-done .grad-ring {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.grad-check {
+  position: relative;
+  color: #10231a;
+}
+.grad-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.grad-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(204, 236, 236, 0.45);
+}
+.grad-dots i {
+  font-style: normal;
+  animation: grad-dot 1.2s infinite;
+}
+.grad-dots i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.grad-dots i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.grad-sub {
+  font-size: 13px;
+  color: var(--text-2);
+}
+@keyframes grad-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes grad-breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+    filter: brightness(0.95);
+  }
+  50% {
+    transform: scale(1.04);
+    filter: brightness(1.15);
+  }
+}
+@keyframes grad-dot {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grad-ring,
+  .grad-core,
+  .grad-dots i {
+    animation: none;
+  }
+}
+
+/* ---- / landing: one screen, no scroll (phones scroll). FTF video background (canvas), hero, framed Explore ---- */
+.app-landing {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  background: #3d2f5c;
+}
+.app-landing::before {
+  display: none; /* the canvas is the whole background */
+}
+.ld-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.ld-stage {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 122px 32px 24px;
+}
+.ld-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #f3efff; /* light on the dark top band, fading into the lavender middle */
+  text-shadow: 0 1px 10px rgba(42, 31, 64, 0.35);
+}
+.ld-name {
+  margin: 0;
+  font-size: clamp(34px, 4.2vh, 48px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+.ld-tag {
+  margin: clamp(18px, 3.2vh, 36px) 0 0;
+  font-size: clamp(17px, 2.3vh, 24px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+.ld-sub {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  color: #f3efff;
+}
+.ld-ctas {
+  display: flex;
+  gap: 24px;
+  margin-top: clamp(20px, 3.4vh, 36px);
+}
+.ld-cta {
+  display: grid;
+  place-items: center;
+  width: 160px;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.ld-cta:hover {
+  transform: translateY(-1px);
+}
+.ld-cta-app {
+  color: #ecddff;
+  background: #2a1f40;
+  box-shadow: 0 10px 28px rgba(42, 31, 64, 0.35);
+}
+.ld-cta-app:hover {
+  box-shadow: 0 12px 32px rgba(42, 31, 64, 0.5);
+}
+.ld-cta-docs {
+  color: #2a1f40;
+  background: rgba(236, 221, 255, 0.45);
+  border: 1px solid rgba(42, 31, 64, 0.35);
+}
+.ld-cta-docs:hover {
+  background: rgba(236, 221, 255, 0.7);
+}
+
+/* the frame: #ECDDFF stroke, a light running around just inside it, Explore filling it (Positions row hidden) */
+@property --ld-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.ld-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-bottom: -104px; /* the bottom ~80 px runs off the screen, like the mockup; the stats stay in view */
+  width: min(1528px, 100%);
+  margin-top: clamp(24px, 4.4vh, 48px);
+  border: 1px solid #ecddff;
+  border-radius: 12px;
+  background: rgba(27, 20, 40, 0.55);
+  box-shadow: 0 30px 90px rgba(7, 2, 12, 0.45), 0 0 24px rgba(236, 221, 255, 0.12);
+}
+.ld-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 11px;
+  pointer-events: none;
+  padding: 3px; /* ring width, inside the stroke */
+  background: conic-gradient(
+    from var(--ld-a),
+    transparent 0deg 285deg,
+    rgba(236, 221, 255, 0.35) 320deg,
+    #ffffff 352deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  filter: drop-shadow(0 0 4px #ecddff);
+  animation: ld-spin 16s linear infinite;
+}
+@keyframes ld-spin {
+  to {
+    --ld-a: 360deg;
+  }
+}
+.ld-frame-in {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 11px;
+  padding: 72px 24px 24px; /* room for the search bar above the chart */
+}
+.ld-frame .ex-grid {
+  height: 100%;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: "list chart order";
+}
+.ld-frame .ex-positions-card {
+  display: none;
+}
+.ld-frame .ex-search-top {
+  bottom: calc(100% + 18px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ld-glow {
+    animation: none;
+  }
+}
+/* phones: still one screen, no scroll. The Explore card is the desktop card, shrunk to fit: it loads /showcase in a
+   1180 px wide frame (so it gets the desktop layout) scaled down to the card's width (see ShowcaseFrame) */
+@media (max-width: 860px) {
+  .ld-stage {
+    padding: 112px 16px 24px; /* hero right under the header, card below it */
+  }
+  .ld-hero {
+    color: #2a1f40; /* darker text on phones */
+    text-shadow: none;
+  }
+  .ld-sub {
+    color: #3d2f5c;
+  }
+  .ld-name {
+    color: #f3efff; /* the title stays white, like the header */
+    text-shadow: 0 1px 10px rgba(42, 31, 64, 0.35);
+  }
+  .ld-name {
+    font-size: 34px;
+  }
+  .ld-tag {
+    margin-top: 16px;
+    font-size: 16px;
+  }
+  .ld-sub {
+    font-size: 11.5px;
+  }
+  .ld-ctas {
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .ld-cta {
+    width: 136px;
+    height: 40px;
+    font-size: 13px;
+  }
+  .ld-frame {
+    flex: none;
+    margin-top: 28px;
+    margin-bottom: 0;
+    border-radius: 8px;
+  }
+  .ld-frame-in {
+    height: auto;
+    padding: 0;
+    border-radius: 7px;
+  }
+  /* header: smaller Account / Points, and a small marquee between them and the logo */
+  .app-landing .top-box {
+    height: 28px;
+    padding: 0 7px;
+  }
+  .app-landing .top-value,
+  .app-landing .login-text {
+    font-size: 11px;
+  }
+  .app-landing .card-stack {
+    width: 128px;
+    height: 28px;
+  }
+  .app-landing .card-stack > .top-box-slot {
+    width: 74px;
+    height: 28px;
+  }
+  .app-landing .card-stack > [data-card="Points"] {
+    left: 54px;
+  }
+  .app-landing .card-stack > [data-card="Points"] .morph-trigger {
+    padding-right: 8px;
+  }
+  .app-landing .top-marquee {
+    display: block;
+    left: 50px;
+    right: 136px; /* clear of Account + Points */
+    width: auto;
+    transform: translateY(-50%);
+  }
+  .app-landing .marquee {
+    padding: 4px 0;
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+  .app-landing .marquee-item {
+    width: 46px;
+    gap: 3px;
+  }
+  .app-landing .marquee-logo {
+    width: 16px;
+    height: 16px;
+  }
+  .app-landing .marquee-price {
+    font-size: 8.5px;
+  }
+}
+.ld-iframe-box {
+  overflow: hidden;
+}
+.ld-iframe-box iframe {
+  display: block;
+  border: 0;
+  background: transparent;
+  transform-origin: 0 0;
+  pointer-events: none; /* a picture of the app on phones: the page never scrolls or zooms through it */
+}
+/* the landing's card is a picture of the app: nothing inside it can be clicked, focused or selected */
+.ld-frame-in {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* /showcase (inside that frame): just the card, on a transparent page */
+.is-showcase,
+.is-showcase body {
+  background: transparent;
+}
+/* the picture holds still: the marquee doesn't scroll */
+.ld-shot .slider-track {
+  transform: none !important;
+}
+/* one desktop screen: the footer links sit at its bottom (Positions, below the fold on a real screen, left out) */
+.ld-shot {
+  height: 100vh;
+}
+.ld-shot .ex-positions-card {
+  display: none;
+}
+
+/* landing avatars: the Neuriio mark in white on one of seven gradients */
+.ex-avatar-mark::after {
+  content: "";
+  width: 66%;
+  height: 41%;
+  background: #fff;
+  -webkit-mask: url(/brand/mark.png) center / contain no-repeat;
+  mask: url(/brand/mark.png) center / contain no-repeat;
+}
+.ex-avatar-mark.tone-0 { background: linear-gradient(135deg, #0f766e, #6ee7a0); } /* the #1 token: green */
+.ex-avatar-mark.tone-1 { background: linear-gradient(135deg, #3d2f5c, #ff8ad8); }
+.ex-avatar-mark.tone-2 { background: linear-gradient(135deg, #817298, #d8fffe); }
+.ex-avatar-mark.tone-3 { background: linear-gradient(135deg, #f97316, #fcd34d); }
+.ex-avatar-mark.tone-4 { background: linear-gradient(135deg, #1e3a8a, #60a5fa); }
+.ex-avatar-mark.tone-5 { background: linear-gradient(135deg, #a21caf, #7c3aed); }
+.ex-avatar-mark.tone-6 { background: linear-gradient(135deg, #be123c, #fb7185); }
+/* the feed's sample posters: the mark on green / orange / teal */
+.ex-avatar-mark.tone-green { background: linear-gradient(135deg, #0f766e, #6ee7a0); }
+.ex-avatar-mark.tone-orange { background: linear-gradient(135deg, #f97316, #fcd34d); }
+.ex-avatar-mark.tone-teal { background: linear-gradient(135deg, #0e7490, #5eead4); }
+
+/* "Charts by TradingView" under the chart's right corner (the library's licence asks for a credit + link) */
+.ex-chart-credit {
+  margin: 4px 0 0;
+  align-self: flex-end;
+  font-size: 9px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.ex-chart-credit a {
+  color: inherit;
+  text-decoration: none;
+}
+.ex-chart-credit a:hover {
+  color: var(--text-2);
+}
+
+/* ---- /explore in the app: edge to edge, cards touching like Hyperliquid's trade page (user, 2026-10-17) ----
+   Top list | chart | order | stake, Positions across the whole width below. No dots / tints / shadows in the cards,
+   just a 1px #ECDDFF line at 50% round each, corners slightly rounded. Everything follows the window: the side columns scale with its width (clamp), the
+   chart takes what's left, and the top row fills its height. Narrower windows (<= 1280px) move the stake card under
+   the order card, beside Positions. Phones (<= 860px) stack the cards in one column, the same flat look, touching and
+   as wide as the screen (user, 2026-10-18). The landing frame and /showcase keep the floating cards (no .ex-wide). */
+.ex-stake-tabs {
+  grid-template-columns: repeat(3, 1fr);
+}
+.ex-order-tab.is-stake.is-on,
+.ex-order-cta.is-stake {
+  color: #fff;
+  background: #8c7d9f;
+}
+.ex-stake-card {
+  grid-area: stake;
+}
+/* two halves: the picked X token on top, Neuriio below, split by the same 1px line as the cards */
+.ex-stake {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ex-stake-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+}
+.ex-stake-half + .ex-stake-half {
+  border-top: 1px solid rgba(236, 221, 255, 0.5);
+}
+.ex-stake-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.ex-stake-title {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ex-stake .ex-order-input {
+  height: 40px;
+}
+.ex-stake .ex-order-est {
+  padding: 10px 12px;
+}
+.ex-stake .ex-order-cta {
+  height: 38px;
+  font-size: 13px;
+}
+/* what stakers earn: one small line right under the amount box (user, 2026-10-24: no box) */
+.ex-stake-earns {
+  margin: -4px 2px 0;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(236, 221, 255, 0.62);
+}
+.ex-stake-max {
+  height: 24px;
+  padding: 0 8px;
+}
+/* every width: flat cards, no shadows. The top row (list | chart | order | stake) is ONE connected widget, .ex-main:
+   one 1px #ECDDFF line at 50% round the outside, its sections split by fainter lines inside. Positions is its own
+   widget below, same frame (user, 2026-10-24). Phones: the chart + the About/Trade/Stake/Positions tabs are the one
+   widget. .ex-main / .ex-side are layout-only (display: contents) outside .ex-wide (landing frame, /showcase). */
+.ex-main,
+.ex-side {
+  display: contents;
+}
+.ex-wide {
+  --ex-frame: rgba(236, 221, 255, 0.5);
+  --ex-split: rgba(236, 221, 255, 0.14);
+  width: 100%;
+}
+.ex-wide .ex-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ex-wide .ex-center {
+  gap: 0;
+}
+.ex-wide .ex-card {
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.ex-wide .ex-main,
+.ex-wide .ex-positions-card {
+  overflow: hidden;
+  background: #170f22;
+  border: 1px solid var(--ex-frame);
+  border-radius: 10px;
+}
+.ex-wide .ex-main {
+  display: flex;
+  flex-direction: column;
+}
+.ex-wide .ex-main > * + * {
+  border-top: 1px solid var(--ex-split);
+}
+.ex-wide .li-bg {
+  display: none;
+}
+@media (min-width: 861px) {
+  .ex-wide {
+    margin: 176px 0 0;
+    padding: 0 12px 110px; /* bottom: room for the footer links */
+  }
+  /* the widget starts right under the header, whatever its height */
+  .app-explore .ex-wide {
+    margin-top: calc(var(--header-bottom) + 16px);
+  }
+  .ex-wide .ex-main {
+    position: relative; /* the search bar centers on the page, above the widget */
+    display: grid;
+    grid-template-columns:
+      clamp(220px, 16vw, 300px) minmax(0, 1fr) clamp(250px, 17vw, 310px)
+      clamp(250px, 17vw, 310px);
+    grid-template-areas: "list chart order stake";
+    height: clamp(480px, calc(100vh - 200px), 900px);
+  }
+  .app-explore .ex-wide .ex-main {
+    height: clamp(480px, calc(100vh - var(--header-bottom) - 48px), 900px);
+  }
+  /* side by side: the inner lines run down, not across */
+  .ex-wide .ex-main > * + * {
+    border-top: 0;
+  }
+  .ex-wide .ex-center,
+  .ex-wide .ex-order-card,
+  .ex-wide .ex-stake-card {
+    border-left: 1px solid var(--ex-split);
+  }
+  .ex-wide .ex-center {
+    position: static;
+  }
+  .ex-wide .ex-positions-card {
+    min-height: 240px;
+  }
+}
+/* phones: a small gutter so the widget's rounded frame shows */
+@media (max-width: 860px) {
+  .ex-wide {
+    box-sizing: border-box;
+    padding: 0 8px 110px; /* bottom: room for the footer links */
+  }
+}
+/* laptops: order and stake share the right column (stake under order), which scrolls if they don't both fit */
+@media (max-width: 1280px) and (min-width: 861px) {
+  .ex-wide .ex-main {
+    grid-template-columns: clamp(220px, 20vw, 260px) minmax(0, 1fr) clamp(260px, 25vw, 300px);
+    grid-template-areas: "list chart side";
+  }
+  .ex-wide .ex-side {
+    grid-area: side;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    border-left: 1px solid var(--ex-split);
+  }
+  .ex-wide .ex-side .ex-card {
+    flex: none;
+    overflow: visible;
+    border-left: 0;
+  }
+  .ex-wide .ex-stake-card {
+    border-top: 1px solid var(--ex-split);
+  }
+}
+
+/* ---- /launch first screen: one big Launch button (no glow) in a small circle of slowly flickering dots, with a band
+   of them ~3 dots tall across the whole page, level with the button (user, 2026-10-17) ----
+   Nothing else on the page until it's pressed (no dot strands, no testnet HYPE button). */
+.launch-go {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(380px, 80vw);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+.launch-go-dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* the band: the window's full width (the page hides what spills past the stage), the circle's height, centered */
+.launch-go-dots.is-band {
+  inset: auto;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+}
+.launch-go-btn {
+  position: relative;
+  padding: 0 46px;
+  height: 64px;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #120c1d;
+  background: #ecddff;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.launch-go-btn:hover {
+  transform: translateY(-1px);
+}
+.launch-go-btn:active {
+  transform: translateY(0);
+}
+.launch-go-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.app:has(.launch-go) .dna-strand,
+.app:has(.launch-go) .launch-hype {
+  display: none;
+}
+
+/* ---- every app page starts below the header, whatever its height at this window size (--header-bottom) ---- */
+.app-nav .stage-feed,
+.app-nav .stage-trending {
+  margin-top: max(120px, calc(var(--header-bottom) + 24px));
+}
+@media (max-width: 860px) {
+  .app-nav .stage-explore {
+    margin-top: calc(var(--header-bottom) + 20px);
+  }
+}
+@media (max-width: 860px), (max-height: 820px) {
+  .app-nav .stage-launch:has(.launch-flow) {
+    margin-top: max(120px, calc(var(--header-bottom) + 24px));
+  }
+}
+@media (max-height: 680px) {
+  .app-nav .stage-launch {
+    margin-top: max(120px, calc(var(--header-bottom) + 24px));
+  }
+}
+/* /showcase: the search is in its header now, so not again above the chart */
+.ld-shot .ex-center > .ex-search-top {
+  display: none;
+}
+
+/* feed: compose box on top of the posts (desktop + phones) */
+.feed-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+.feed-compose {
+  display: flex;
+  gap: 14px;
+  padding: 4px 4px 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.feed-compose-locked {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.feed-compose-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feed-compose-input {
+  width: 100%;
+  resize: none;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 8px 0 0;
+}
+.feed-compose-input::placeholder {
+  color: var(--muted);
+}
+.feed-compose-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+.feed-compose-left {
+  font-size: 12px;
+}
+.feed-compose-left.is-low {
+  color: #ff8fb1;
+}
+.feed-post-btn {
+  padding: 7px 24px;
+}
+.feed-empty {
+  padding: 24px 0;
+}
+.feed-compose-err {
+  margin-right: auto;
+  font-size: 12px;
+  color: #ff8fb1;
+}
+.feed-reply {
+  margin: 12px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  border-bottom: none;
+}
+
+/* ---- order box: volume + fees bar charts under the trade button (2026-10-20) ---- */
+.ex-bars {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.ex-bars-card {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 110px;
+  padding: 10px 12px;
+  border: 1px solid rgba(236, 221, 255, 0.1);
+  border-radius: var(--radius);
+  background-color: rgba(10, 6, 18, 0.45);
+  background-image: radial-gradient(rgba(236, 221, 255, 0.14) 1px, transparent 1.2px);
+  background-size: 12px 12px;
+}
+.ex-bars-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(236, 221, 255, 0.55);
+}
+.ex-bars-head b {
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #fff;
+}
+.ex-bars-card {
+  padding-bottom: 0;
+}
+.ex-bars-chart {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 8px;
+  min-height: 60px;
+}
+.ex-bars-plot {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-end;
+  gap: 6px;
+  border-bottom: 1px solid rgba(236, 221, 255, 0.18);
+}
+.ex-bar {
+  flex: 0 1 22px;
+  border-radius: 2px 2px 0 0;
+  background: #8c7d9f;
+}
+.ex-bars-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 34px;
+  padding-bottom: 0;
+  font-size: 10px;
+  line-height: 1;
+  text-align: right;
+  color: rgba(236, 221, 255, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+.ex-bars-axis span:last-child {
+  transform: translateY(1px);
+}
+
+/* ---- /trending: MCAP sort arrow (2026-10-20) ---- */
+.tr-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.tr-sort:hover,
+.tr-sort.is-on {
+  color: #fff;
+}

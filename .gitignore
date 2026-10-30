@@ -1,0 +1,23 @@
+# Compiler files
+cache/
+out/
+
+# Dotenv file
+.env
+node_modules/
+logs/
+.env.local
+app/dist/
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+
+# Foundry deploy logs (kept locally only)
+broadcast/
+
+# Claude Code local preview config
+.claude/
+
+# macOS
+.DS_Store
